@@ -167,6 +167,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
 
       final sectionPath = generateSectionPath(
+        data.clockWise,
         section,
         data.sectionsSpace,
         tempAngle,
@@ -186,10 +187,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
           ..style = PaintingStyle.stroke;
 
         // Calculate radial lines (the sides of the section)
-        final startRadians = Utils().radians(tempAngle);
-        final sweepRadians = data.clockWise
-            ? Utils().radians(sectionDegree)
-            : -Utils().radians(sectionDegree);
+        final sweepRadians = Utils().radians(sectionDegree);
+        final startRadians = data.clockWise
+            ? Utils().radians(tempAngle)
+            : Utils().radians(tempAngle - sectionDegree);
         final endRadians = startRadians + sweepRadians;
 
         final startLineDirection =
@@ -222,6 +223,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   /// Generates a path around a section
   @visibleForTesting
   Path generateSectionPath(
+    bool clockWise,
     PieChartSectionData section,
     double sectionSpace,
     double tempAngle,
@@ -239,8 +241,10 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       radius: centerRadius,
     );
 
-    final startRadians = Utils().radians(tempAngle);
     final sweepRadians = Utils().radians(sectionDegree);
+    final startRadians = clockWise
+        ? Utils().radians(tempAngle)
+        : Utils().radians(tempAngle - sectionDegree);
     final endRadians = startRadians + sweepRadians;
 
     final startLineDirection =
@@ -393,6 +397,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
   @visibleForTesting
   void drawSectionStroke(
+    bool clockWise,
     PieChartSectionData section,
     double tempAngle,
     double sectionDegree,
@@ -409,7 +414,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       // Calculate radial lines (the sides of the section)
       final startRadians = Utils().radians(tempAngle);
       final sweepRadians = Utils().radians(sectionDegree);
-      final endRadians = startRadians + sweepRadians;
+      final endRadians =
+          clockWise ? startRadians + sweepRadians : startRadians - sweepRadians;
 
       final startLineDirection =
           Offset(math.cos(startRadians), math.sin(startRadians));
@@ -455,7 +461,8 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
       final startAngle = tempAngle;
       final sweepAngle = 360 * (section.value / data.sumValue);
-      final sectionCenterAngle = startAngle + (sweepAngle / 2);
+      final baseAngle = startAngle + (sweepAngle / 2);
+      final sectionCenterAngle = data.clockWise ? baseAngle : 360 - baseAngle;
 
       double? rotateAngle;
       if (data.titleSunbeamLayout) {
@@ -540,6 +547,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     final touchR = math.sqrt(math.pow(touchX, 2) + math.pow(touchY, 2));
     var touchAngle = Utils().degrees(math.atan2(touchY, touchX));
     touchAngle = touchAngle < 0 ? (180 - touchAngle.abs()) + 180 : touchAngle;
+    if (!data.clockWise) {
+      touchAngle = (360 - touchAngle) % 360;
+    }
 
     PieChartSectionData? foundSectionData;
     var foundSectionDataPosition = -1;
@@ -563,6 +573,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
 
       final sectionPath = generateSectionPath(
+        data.clockWise,
         section,
         data.sectionsSpace,
         tempAngle,
@@ -577,7 +588,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         break;
       }
 
-      tempAngle += sectionAngle;
+      if (data.clockWise) {
+        tempAngle += sectionAngle;
+      } else {
+        tempAngle -= sectionAngle;
+      }
     }
 
     return PieTouchedSection(
@@ -625,7 +640,11 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
       badgeWidgetsOffsets[i] = sectionCenterOffsetBadgeWidget;
 
-      tempAngle += sweepAngle;
+      if (data.clockWise) {
+        tempAngle += sweepAngle;
+      } else {
+        tempAngle -= sweepAngle;
+      }
     }
 
     return badgeWidgetsOffsets;

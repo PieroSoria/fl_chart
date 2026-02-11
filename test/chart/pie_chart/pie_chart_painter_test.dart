@@ -289,6 +289,7 @@ void main() {
       expect(results.length, 4);
 
       final path0 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[0],
         10,
         0,
@@ -307,6 +308,7 @@ void main() {
       expect(results[0]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
       final path1 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[1],
         10,
         36,
@@ -325,6 +327,7 @@ void main() {
       expect(results[1]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
       final path2 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[2],
         10,
         108,
@@ -343,6 +346,7 @@ void main() {
       expect(results[2]['paint_style'] as PaintingStyle, PaintingStyle.fill);
 
       final path3 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[3],
         10,
         216,
@@ -377,6 +381,7 @@ void main() {
       final barChartPainter = PieChartPainter();
 
       final path0 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[0],
         10,
         0,
@@ -392,6 +397,7 @@ void main() {
       expect(path0Length, 90.08028411865234);
 
       final path1 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[1],
         10,
         36,
@@ -407,6 +413,7 @@ void main() {
       expect(path1Length, 136.93048095703125);
 
       final path2 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[2],
         10,
         108,
@@ -422,6 +429,7 @@ void main() {
       expect(path2Length, closeTo(174.6013, tolerance));
 
       final path3 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[3],
         10,
         216,
@@ -451,6 +459,7 @@ void main() {
       final barChartPainter = PieChartPainter();
 
       final path0 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[0],
         0,
         0,
@@ -466,6 +475,7 @@ void main() {
       expect(path0Length, 117.56398010253906);
 
       final path1 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[1],
         0,
         36,
@@ -481,6 +491,7 @@ void main() {
       expect(path1Length, 155.1278076171875);
 
       final path2 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[2],
         0,
         108,
@@ -496,6 +507,7 @@ void main() {
       expect(path2Length, closeTo(192.8401, tolerance));
 
       final path3 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[3],
         0,
         216,
@@ -525,6 +537,7 @@ void main() {
       final barChartPainter = PieChartPainter();
 
       final path0 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[0],
         0,
         0,
@@ -540,6 +553,7 @@ void main() {
       expect(path0Length, 108.80243682861328);
 
       final path1 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[1],
         0,
         36,
@@ -555,6 +569,7 @@ void main() {
       expect(path1Length, 140.05465698242188);
 
       final path2 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[2],
         0,
         108,
@@ -570,6 +585,7 @@ void main() {
       expect(path2Length, 173.86875915527344);
 
       final path3 = barChartPainter.generateSectionPath(
+        data.clockWise,
         data.sections[3],
         0,
         216,
@@ -732,6 +748,7 @@ void main() {
 
       barChartPainter
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[0],
           0,
           90,
@@ -741,6 +758,7 @@ void main() {
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[1],
           90,
           90,
@@ -750,6 +768,7 @@ void main() {
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[2],
           180,
           90,
@@ -759,6 +778,7 @@ void main() {
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[3],
           270,
           90,
@@ -832,6 +852,7 @@ void main() {
 
       barChartPainter
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[0],
           0,
           90,
@@ -841,6 +862,7 @@ void main() {
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[1],
           90,
           90,
@@ -850,6 +872,7 @@ void main() {
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[2],
           180,
           90,
@@ -859,6 +882,7 @@ void main() {
           viewSize,
         )
         ..drawSectionStroke(
+          data.clockWise,
           data.sections[3],
           270,
           90,
