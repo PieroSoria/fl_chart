@@ -114,8 +114,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         final rect = Rect.fromCircle(center: center, radius: radius);
         _sectionPaint
           ..setColorOrGradient(
-            // section.color ,
-            Colors.black,
+            section.color,
             section.gradient,
             rect,
           )
@@ -168,7 +167,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
 
       final sectionPath = generateSectionPath(
-        data.clockWise,
         section,
         data.sectionsSpace,
         tempAngle,
@@ -211,14 +209,17 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
         canvasWrapper.drawPath(radialLinesPath, _sectionStrokePaint);
       }
-      tempAngle += sectionDegree;
+      if (data.clockWise) {
+        tempAngle += sectionDegree;
+      } else {
+        tempAngle -= sectionDegree;
+      }
     }
   }
 
   /// Generates a path around a section
   @visibleForTesting
   Path generateSectionPath(
-    bool clockWise,
     PieChartSectionData section,
     double sectionSpace,
     double tempAngle,
@@ -237,9 +238,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     );
 
     final startRadians = Utils().radians(tempAngle);
-    final sweepRadians = clockWise
-        ? Utils().radians(sectionDegree)
-        : -Utils().radians(sectionDegree);
+    final sweepRadians = Utils().radians(sectionDegree);
     final endRadians = startRadians + sweepRadians;
 
     final startLineDirection =
@@ -562,7 +561,6 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
 
       final sectionPath = generateSectionPath(
-        data.clockWise,
         section,
         data.sectionsSpace,
         tempAngle,
