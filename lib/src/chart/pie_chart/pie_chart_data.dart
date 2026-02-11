@@ -31,6 +31,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
+    this.clockWise = true,
   })  : sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
@@ -66,6 +67,9 @@ class PieChartData extends BaseChartData with EquatableMixin {
   /// Whether to rotate the titles on each section of the chart
   final bool titleSunbeamLayout;
 
+  /// Defines sweep order
+  final bool clockWise;
+
   /// We hold this value to determine weight of each [PieChartSectionData.value].
   double get sumValue => sections
       .map((data) => data.value)
@@ -82,6 +86,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
     bool? titleSunbeamLayout,
+    bool? clockWise,
   }) =>
       PieChartData(
         sections: sections ?? this.sections,
@@ -92,6 +97,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         pieTouchData: pieTouchData ?? this.pieTouchData,
         borderData: borderData ?? this.borderData,
         titleSunbeamLayout: titleSunbeamLayout ?? this.titleSunbeamLayout,
+        clockWise: clockWise ?? this.clockWise,
       );
 
   /// Lerps a [BaseChartData] based on [t] value, check [Tween.lerp].
@@ -112,6 +118,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
             lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
         sections: lerpPieChartSectionDataList(a.sections, b.sections, t),
         titleSunbeamLayout: b.titleSunbeamLayout,
+        clockWise: a.clockWise,
       );
     } else {
       throw Exception('Illegal State');
@@ -129,6 +136,7 @@ class PieChartData extends BaseChartData with EquatableMixin {
         startDegreeOffset,
         borderData,
         titleSunbeamLayout,
+        clockWise,
       ];
 }
 
@@ -166,7 +174,6 @@ class PieChartSectionData with EquatableMixin {
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
     this.cornerRadius,
-    this.clockWise = true,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = radius ?? 40,
@@ -228,9 +235,6 @@ class PieChartSectionData with EquatableMixin {
   /// Defines corner radius for the border of the section.
   final double? cornerRadius;
 
-  /// Defines sweep order
-  final bool clockWise;
-
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
   PieChartSectionData copyWith({
@@ -246,7 +250,6 @@ class PieChartSectionData with EquatableMixin {
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
     double? cornerRadius,
-    bool? clockWise,
   }) =>
       PieChartSectionData(
         value: value ?? this.value,
@@ -263,7 +266,6 @@ class PieChartSectionData with EquatableMixin {
         badgePositionPercentageOffset:
             badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
         cornerRadius: cornerRadius ?? this.cornerRadius,
-        clockWise: clockWise ?? this.clockWise,
       );
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
@@ -293,7 +295,6 @@ class PieChartSectionData with EquatableMixin {
           t,
         ),
         cornerRadius: b.cornerRadius,
-        clockWise: b.clockWise,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -311,7 +312,6 @@ class PieChartSectionData with EquatableMixin {
         titlePositionPercentageOffset,
         badgePositionPercentageOffset,
         cornerRadius,
-        clockWise,
       ];
 }
 

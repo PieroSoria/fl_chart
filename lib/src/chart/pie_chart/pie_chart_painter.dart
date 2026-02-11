@@ -168,6 +168,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
 
       final sectionPath = generateSectionPath(
+        data.clockWise,
         section,
         data.sectionsSpace,
         tempAngle,
@@ -217,6 +218,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   /// Generates a path around a section
   @visibleForTesting
   Path generateSectionPath(
+    bool clockWise,
     PieChartSectionData section,
     double sectionSpace,
     double tempAngle,
@@ -235,7 +237,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     );
 
     final startRadians = Utils().radians(tempAngle);
-    final sweepRadians = section.clockWise
+    final sweepRadians = clockWise
         ? Utils().radians(sectionDegree)
         : -Utils().radians(sectionDegree);
     final endRadians = startRadians + sweepRadians;
@@ -559,8 +561,15 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
         break;
       }
 
-      final sectionPath = generateSectionPath(section, data.sectionsSpace,
-          tempAngle, sectionAngle, center, centerRadius);
+      final sectionPath = generateSectionPath(
+        data.clockWise,
+        section,
+        data.sectionsSpace,
+        tempAngle,
+        sectionAngle,
+        center,
+        centerRadius,
+      );
 
       if (sectionPath.contains(localPosition)) {
         foundSectionData = section;
