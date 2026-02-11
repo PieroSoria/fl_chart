@@ -235,7 +235,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     );
 
     final startRadians = Utils().radians(tempAngle);
-    final sweepRadians = Utils().radians(sectionDegree);
+    final sweepRadians = section.clockWise
+        ? Utils().radians(sectionDegree)
+        : -Utils().radians(sectionDegree);
     final endRadians = startRadians + sweepRadians;
 
     final startLineDirection =
