@@ -5,6 +5,7 @@ import 'package:fl_chart/src/chart/pie_chart/pie_chart_painter.dart';
 import 'package:fl_chart/src/utils/canvas_wrapper.dart';
 import 'package:fl_chart/src/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -1261,6 +1262,90 @@ void main() {
           3: const Offset(124.72135954999578, 23.91547869638771),
         },
       );
+    });
+  });
+
+  group('strokeCap test', () {
+    test('PieChartSectionData with different strokeCap values', () {
+      final sectionWithButtCap = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        borderSide: const BorderSide(width: 2),
+        strokeCap: StrokeCap.butt,
+      );
+      expect(sectionWithButtCap.strokeCap, StrokeCap.butt);
+
+      final sectionWithRoundCap = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        borderSide: const BorderSide(width: 2),
+        strokeCap: StrokeCap.round,
+      );
+      expect(sectionWithRoundCap.strokeCap, StrokeCap.round);
+
+      final sectionWithSquareCap = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        borderSide: const BorderSide(width: 2),
+        strokeCap: StrokeCap.square,
+      );
+      expect(sectionWithSquareCap.strokeCap, StrokeCap.square);
+
+      // Test that strokeCap is preserved in copyWith
+      final copiedSection = sectionWithRoundCap.copyWith(
+        value: 15,
+      );
+      expect(copiedSection.strokeCap, StrokeCap.round);
+      expect(copiedSection.value, 15);
+
+      // Test that strokeCap can be changed in copyWith
+      final changedCapSection = sectionWithRoundCap.copyWith(
+        strokeCap: StrokeCap.square,
+      );
+      expect(changedCapSection.strokeCap, StrokeCap.square);
+
+      // Test lerp function preserves strokeCap from the end value
+      final lerped = PieChartSectionData.lerp(
+        sectionWithButtCap,
+        sectionWithRoundCap,
+        0.5,
+      );
+      expect(lerped.strokeCap, StrokeCap.round);
+    });
+
+    test('PieChartData with sections having different strokeCap', () {
+      final data = PieChartData(
+        sections: [
+          PieChartSectionData(
+            value: 10,
+            color: Colors.red,
+            borderSide: const BorderSide(width: 2),
+            strokeCap: StrokeCap.butt,
+          ),
+          PieChartSectionData(
+            value: 20,
+            color: Colors.green,
+            borderSide: const BorderSide(width: 2),
+            strokeCap: StrokeCap.round,
+          ),
+          PieChartSectionData(
+            value: 30,
+            color: Colors.blue,
+            borderSide: const BorderSide(width: 2),
+            strokeCap: StrokeCap.square,
+          ),
+        ],
+      );
+
+      expect(data.sections[0].strokeCap, StrokeCap.butt);
+      expect(data.sections[1].strokeCap, StrokeCap.round);
+      expect(data.sections[2].strokeCap, StrokeCap.square);
+
+      // Test that copying PieChartData preserves section strokeCaps
+      final copiedData = data.copyWith();
+      expect(copiedData.sections[0].strokeCap, StrokeCap.butt);
+      expect(copiedData.sections[1].strokeCap, StrokeCap.round);
+      expect(copiedData.sections[2].strokeCap, StrokeCap.square);
     });
   });
 }

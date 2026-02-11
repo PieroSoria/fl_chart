@@ -164,5 +164,68 @@ void main() {
       );
       expect(sample1 == zeroLongPressDuration, false);
     });
+
+    test('PieChartSectionData strokeCap test', () {
+      final sectionWithDefaultStrokeCap = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+      );
+      expect(sectionWithDefaultStrokeCap.strokeCap, StrokeCap.butt);
+
+      final sectionWithRoundStrokeCap = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        strokeCap: StrokeCap.round,
+      );
+      expect(sectionWithRoundStrokeCap.strokeCap, StrokeCap.round);
+
+      final sectionWithSquareStrokeCap = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        strokeCap: StrokeCap.square,
+      );
+      expect(sectionWithSquareStrokeCap.strokeCap, StrokeCap.square);
+
+      // Test copyWith preserves strokeCap
+      final copiedSection = sectionWithRoundStrokeCap.copyWith(
+        color: Colors.blue,
+      );
+      expect(copiedSection.strokeCap, StrokeCap.round);
+      expect(copiedSection.color, Colors.blue);
+
+      // Test copyWith can change strokeCap
+      final copiedWithNewStrokeCap = sectionWithRoundStrokeCap.copyWith(
+        strokeCap: StrokeCap.square,
+      );
+      expect(copiedWithNewStrokeCap.strokeCap, StrokeCap.square);
+
+      // Test equality with different strokeCap
+      expect(
+        sectionWithDefaultStrokeCap ==
+            sectionWithDefaultStrokeCap.copyWith(),
+        true,
+      );
+
+      expect(
+        sectionWithRoundStrokeCap ==
+            sectionWithDefaultStrokeCap.copyWith(strokeCap: StrokeCap.round),
+        true, // Same properties
+      );
+
+      // Create sections with same properties but different strokeCap
+      final sectionA = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        strokeCap: StrokeCap.butt,
+      );
+
+      final sectionB = PieChartSectionData(
+        value: 10,
+        color: Colors.red,
+        strokeCap: StrokeCap.round,
+      );
+
+      expect(sectionA == sectionB, false);
+    });
   });
 }
