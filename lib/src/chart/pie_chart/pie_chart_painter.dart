@@ -167,6 +167,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
 
       final sectionPath = generateSectionPath(
+        data.clockWise,
         section,
         data.sectionsSpace,
         tempAngle,
@@ -187,7 +188,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
         // Calculate radial lines (the sides of the section)
         final startRadians = Utils().radians(tempAngle);
-        final sweepRadians = Utils().radians(sectionDegree);
+        final sweepRadians = data.clockWise
+            ? Utils().radians(sectionDegree)
+            : -Utils().radians(sectionDegree);
         final endRadians = startRadians + sweepRadians;
 
         final startLineDirection =
@@ -220,6 +223,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
   /// Generates a path around a section
   @visibleForTesting
   Path generateSectionPath(
+    bool clockWise,
     PieChartSectionData section,
     double sectionSpace,
     double tempAngle,
@@ -238,7 +242,9 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
     );
 
     final startRadians = Utils().radians(tempAngle);
-    final sweepRadians = Utils().radians(sectionDegree);
+    final sweepRadians = clockWise
+        ? Utils().radians(sectionDegree)
+        : -Utils().radians(sectionDegree);
     final endRadians = startRadians + sweepRadians;
 
     final startLineDirection =
@@ -561,6 +567,7 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
       }
 
       final sectionPath = generateSectionPath(
+        data.clockWise,
         section,
         data.sectionsSpace,
         tempAngle,
