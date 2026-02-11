@@ -727,28 +727,43 @@ void main() {
         });
       });
 
+      final center = Offset(viewSize.width / 2, viewSize.height / 2);
+      const centerRadius = 50.0;
+
       barChartPainter
         ..drawSectionStroke(
           data.sections[0],
-          MockData.path1,
+          0,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
           data.sections[1],
-          MockData.path2,
+          90,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
           data.sections[2],
-          MockData.path3,
+          180,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
           data.sections[3],
-          MockData.path4,
+          270,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         );
@@ -812,28 +827,43 @@ void main() {
         });
       });
 
+      final center = Offset(viewSize.width / 2, viewSize.height / 2);
+      const centerRadius = 50.0;
+
       barChartPainter
         ..drawSectionStroke(
           data.sections[0],
-          MockData.path1,
+          0,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
           data.sections[1],
-          MockData.path2,
+          90,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
           data.sections[2],
-          MockData.path3,
+          180,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         )
         ..drawSectionStroke(
           data.sections[3],
-          MockData.path4,
+          270,
+          90,
+          center,
+          centerRadius,
           mockCanvasWrapper,
           viewSize,
         );
@@ -1265,87 +1295,84 @@ void main() {
     });
   });
 
-  group('strokeCap test', () {
-    test('PieChartSectionData with different strokeCap values', () {
-      final sectionWithButtCap = PieChartSectionData(
+  group('cornerRadius test', () {
+    test('PieChartSectionData with different cornerRadius values', () {
+      final sectionSmallRadius = PieChartSectionData(
         value: 10,
         color: Colors.red,
         borderSide: const BorderSide(width: 2),
-        strokeCap: StrokeCap.butt,
+        cornerRadius: 0,
       );
-      expect(sectionWithButtCap.strokeCap, StrokeCap.butt);
+      expect(sectionSmallRadius.cornerRadius, 0);
 
-      final sectionWithRoundCap = PieChartSectionData(
+      final sectionMediumRadius = PieChartSectionData(
         value: 10,
         color: Colors.red,
         borderSide: const BorderSide(width: 2),
-        strokeCap: StrokeCap.round,
+        cornerRadius: 6,
       );
-      expect(sectionWithRoundCap.strokeCap, StrokeCap.round);
+      expect(sectionMediumRadius.cornerRadius, 6);
 
-      final sectionWithSquareCap = PieChartSectionData(
+      final sectionLargeRadius = PieChartSectionData(
         value: 10,
         color: Colors.red,
         borderSide: const BorderSide(width: 2),
-        strokeCap: StrokeCap.square,
+        cornerRadius: 12,
       );
-      expect(sectionWithSquareCap.strokeCap, StrokeCap.square);
+      expect(sectionLargeRadius.cornerRadius, 12);
 
-      // Test that strokeCap is preserved in copyWith
-      final copiedSection = sectionWithRoundCap.copyWith(
+      /// copyWith preserves value
+      final copiedSection = sectionMediumRadius.copyWith(
         value: 15,
       );
-      expect(copiedSection.strokeCap, StrokeCap.round);
+      expect(copiedSection.cornerRadius, 6);
       expect(copiedSection.value, 15);
 
-      // Test that strokeCap can be changed in copyWith
-      final changedCapSection = sectionWithRoundCap.copyWith(
-        strokeCap: StrokeCap.square,
+      /// copyWith allows changing radius
+      final changedRadiusSection = sectionMediumRadius.copyWith(
+        cornerRadius: 20,
       );
-      expect(changedCapSection.strokeCap, StrokeCap.square);
+      expect(changedRadiusSection.cornerRadius, 20);
 
-      // Test lerp function preserves strokeCap from the end value
+      /// lerp takes end value
       final lerped = PieChartSectionData.lerp(
-        sectionWithButtCap,
-        sectionWithRoundCap,
+        sectionSmallRadius,
+        sectionLargeRadius,
         0.5,
       );
-      expect(lerped.strokeCap, StrokeCap.round);
+      expect(lerped.cornerRadius, 12);
     });
 
-    test('PieChartData with sections having different strokeCap', () {
+    test('PieChartData with sections having different cornerRadius', () {
       final data = PieChartData(
         sections: [
           PieChartSectionData(
             value: 10,
             color: Colors.red,
-            borderSide: const BorderSide(width: 2),
-            strokeCap: StrokeCap.butt,
+            cornerRadius: 4,
           ),
           PieChartSectionData(
             value: 20,
             color: Colors.green,
-            borderSide: const BorderSide(width: 2),
-            strokeCap: StrokeCap.round,
+            cornerRadius: 8,
           ),
           PieChartSectionData(
             value: 30,
             color: Colors.blue,
-            borderSide: const BorderSide(width: 2),
-            strokeCap: StrokeCap.square,
+            cornerRadius: 12,
           ),
         ],
       );
 
-      expect(data.sections[0].strokeCap, StrokeCap.butt);
-      expect(data.sections[1].strokeCap, StrokeCap.round);
-      expect(data.sections[2].strokeCap, StrokeCap.square);
+      expect(data.sections[0].cornerRadius, 4);
+      expect(data.sections[1].cornerRadius, 8);
+      expect(data.sections[2].cornerRadius, 12);
 
-      // Test that copying PieChartData preserves section strokeCaps
+      /// copy preserves
       final copiedData = data.copyWith();
-      expect(copiedData.sections[0].strokeCap, StrokeCap.butt);
-      expect(copiedData.sections[1].strokeCap, StrokeCap.round);
-      expect(copiedData.sections[2].strokeCap, StrokeCap.square);
+      expect(copiedData.sections[0].cornerRadius, 4);
+      expect(copiedData.sections[1].cornerRadius, 8);
+      expect(copiedData.sections[2].cornerRadius, 12);
     });
   });
 }

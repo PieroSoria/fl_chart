@@ -165,7 +165,7 @@ class PieChartSectionData with EquatableMixin {
     this.badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
-    StrokeCap? strokeCap,
+    this.cornerRadius,
   })  : value = value ?? 10,
         color = color ?? Colors.cyan,
         radius = radius ?? 40,
@@ -173,8 +173,7 @@ class PieChartSectionData with EquatableMixin {
         title = title ?? (value == null ? '' : value.toString()),
         borderSide = borderSide ?? const BorderSide(width: 0),
         titlePositionPercentageOffset = titlePositionPercentageOffset ?? 0.5,
-        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5,
-        strokeCap = strokeCap ?? StrokeCap.butt;
+        badgePositionPercentageOffset = badgePositionPercentageOffset ?? 0.5;
 
   /// It determines how much space it should occupy around the circle.
   ///
@@ -225,8 +224,8 @@ class PieChartSectionData with EquatableMixin {
   /// 1.0 means near the outside of the [PieChart].
   final double badgePositionPercentageOffset;
 
-  /// Defines stroke cap style for the border of the section.
-  final StrokeCap strokeCap;
+  /// Defines corner radius for the border of the section.
+  final double? cornerRadius;
 
   /// Copies current [PieChartSectionData] to a new [PieChartSectionData],
   /// and replaces provided values.
@@ -242,7 +241,7 @@ class PieChartSectionData with EquatableMixin {
     Widget? badgeWidget,
     double? titlePositionPercentageOffset,
     double? badgePositionPercentageOffset,
-    StrokeCap? strokeCap,
+    double? cornerRadius,
   }) =>
       PieChartSectionData(
         value: value ?? this.value,
@@ -258,7 +257,7 @@ class PieChartSectionData with EquatableMixin {
             titlePositionPercentageOffset ?? this.titlePositionPercentageOffset,
         badgePositionPercentageOffset:
             badgePositionPercentageOffset ?? this.badgePositionPercentageOffset,
-        strokeCap: strokeCap ?? this.strokeCap,
+        cornerRadius: cornerRadius ?? this.cornerRadius,
       );
 
   /// Lerps a [PieChartSectionData] based on [t] value, check [Tween.lerp].
@@ -287,7 +286,7 @@ class PieChartSectionData with EquatableMixin {
           b.badgePositionPercentageOffset,
           t,
         ),
-        strokeCap: b.strokeCap,
+        cornerRadius: b.cornerRadius,
       );
 
   /// Used for equality check, see [EquatableMixin].
@@ -304,7 +303,7 @@ class PieChartSectionData with EquatableMixin {
         badgeWidget,
         titlePositionPercentageOffset,
         badgePositionPercentageOffset,
-        strokeCap,
+        cornerRadius,
       ];
 }
 

@@ -170,60 +170,53 @@ void main() {
         value: 10,
         color: Colors.red,
       );
-      expect(sectionWithDefaultStrokeCap.strokeCap, StrokeCap.butt);
+      expect(sectionWithDefaultStrokeCap.cornerRadius, 4);
 
       final sectionWithRoundStrokeCap = PieChartSectionData(
         value: 10,
         color: Colors.red,
-        strokeCap: StrokeCap.round,
+        cornerRadius: 4,
       );
-      expect(sectionWithRoundStrokeCap.strokeCap, StrokeCap.round);
+      expect(sectionWithRoundStrokeCap.cornerRadius, 4);
 
       final sectionWithSquareStrokeCap = PieChartSectionData(
         value: 10,
         color: Colors.red,
-        strokeCap: StrokeCap.square,
+        cornerRadius: 4,
       );
-      expect(sectionWithSquareStrokeCap.strokeCap, StrokeCap.square);
+      expect(sectionWithSquareStrokeCap.cornerRadius, 4);
 
       // Test copyWith preserves strokeCap
       final copiedSection = sectionWithRoundStrokeCap.copyWith(
         color: Colors.blue,
       );
-      expect(copiedSection.strokeCap, StrokeCap.round);
+      expect(copiedSection.cornerRadius, 4);
       expect(copiedSection.color, Colors.blue);
 
       // Test copyWith can change strokeCap
       final copiedWithNewStrokeCap = sectionWithRoundStrokeCap.copyWith(
-        strokeCap: StrokeCap.square,
+        cornerRadius: 4,
       );
-      expect(copiedWithNewStrokeCap.strokeCap, StrokeCap.square);
+      expect(copiedWithNewStrokeCap.cornerRadius, 4);
 
       // Test equality with different strokeCap
       expect(
-        sectionWithDefaultStrokeCap ==
-            sectionWithDefaultStrokeCap.copyWith(),
+        sectionWithDefaultStrokeCap == sectionWithDefaultStrokeCap.copyWith(),
         true,
       );
 
       expect(
         sectionWithRoundStrokeCap ==
-            sectionWithDefaultStrokeCap.copyWith(strokeCap: StrokeCap.round),
+            sectionWithDefaultStrokeCap.copyWith(cornerRadius: 4),
         true, // Same properties
       );
 
       // Create sections with same properties but different strokeCap
-      final sectionA = PieChartSectionData(
-        value: 10,
-        color: Colors.red,
-        strokeCap: StrokeCap.butt,
-      );
+      final sectionA =
+          PieChartSectionData(value: 10, color: Colors.red, cornerRadius: 7);
 
-      final sectionB = PieChartSectionData(
-        value: 10,
-        color: Colors.red,
-        strokeCap: StrokeCap.round,
-      );
+      final sectionB =
+          PieChartSectionData(value: 10, color: Colors.red, cornerRadius: 10);
 
       expect(sectionA == sectionB, false);
     });
